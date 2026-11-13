@@ -12,7 +12,7 @@ if (Get-Command docker -ErrorAction SilentlyContinue) {
     & docker volume rm localcoder-data localcoder-cache 2>$null | Out-Null
     Say 'removed Docker image localcoder:1 and its volumes'
 }
-foreach ($p in 'llama.cpp', 'llm.key', 'docker\opencode', 'docker\opencode.json') {
+foreach ($p in 'llama.cpp', 'llm.key') {
     $full = Join-Path $Root $p
     if (Test-Path $full) { Remove-Item -Recurse -Force $full; Say "removed $p" }
 }

@@ -1,7 +1,7 @@
 <#
   Starts llama-server on 127.0.0.1:8080 (this PC only, needs the key in llm.key).
     Start-LLM.bat                      # first downloaded model that fits your GPU
-    Start-LLM.bat qwen3.6-35b-a3b      # pick a model by id (see config\models.json)
+    Start-LLM.bat qwen3.6-35b-a3b      # pick a model by id (see models.json)
     Start-LLM.bat qwen3.8-27b-q6 -Ctx 32768
     Start-LLM.bat qwen3.8-27b-q6 -Mtp  # experimental speed head
   Close the window (or Ctrl+C) to stop it and free the VRAM.
@@ -13,13 +13,13 @@ param(
     [switch]$Mtp
 )
 $ErrorActionPreference = 'Stop'
-$Root = Split-Path $PSScriptRoot -Parent
+$Root = $PSScriptRoot
 $exe = Join-Path $Root 'llama.cpp\llama-server.exe'
 if (-not (Test-Path $exe)) { Write-Host 'llama.cpp is not installed. Run Install.bat first.' -ForegroundColor Red; exit 1 }
 $keyFile = Join-Path $Root 'llm.key'
 if (-not (Test-Path $keyFile)) { Write-Host 'llm.key missing. Run Install.bat first.' -ForegroundColor Red; exit 1 }
 $key = (Get-Content $keyFile -Raw).Trim()
-$catalog = Get-Content (Join-Path $Root 'config\models.json') -Raw | ConvertFrom-Json
+$catalog = Get-Content (Join-Path $Root 'models.json') -Raw | ConvertFrom-Json
 $vramGB = [math]::Round([int](& nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | Select-Object -First 1) / 1024)
 
 function Have($id) { $m = $catalog.$id; $m -and $m.ctx -and (Test-Path (Join-Path $Root ('models\' + (Split-Path $m.file -Leaf)))) }

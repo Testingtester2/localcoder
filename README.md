@@ -53,7 +53,7 @@ The server uses most of the GPU. Do not run it at the same time as other heavy G
 | `qwen3.6-35b-a3b` | Qwen3.6-35B-A3B-UD-Q4_K_M | 22.1 GB | Faster replies (MoE, 3B active), weaker on long agent runs |
 | `qwen3.8-27b-mtp` | mtp-Qwen3.8-27B-Q4_0 | 1.4 GB | Optional speed head, see below |
 
-If the server runs out of memory, lower `-Ctx`. All files come from `huggingface.co/unsloth`. Model ids and context sizes live in `config\models.json`.
+If the server runs out of memory, lower `-Ctx`. All files come from `huggingface.co/unsloth`. Model ids and context sizes live in `models.json`.
 
 **Speed head (experimental).** `Start-LLM.bat qwen3.8-27b-q6 -Mtp` loads the MTP head for speculative decoding. It has not been tested with this kit yet. If the server will not start with it, run without `-Mtp`.
 
@@ -72,11 +72,11 @@ What it does not do:
 - Anything the agent writes inside your project folder is real. Use git, so you can review and undo its changes.
 - Permission prompts only help if you read them before you approve.
 
-To change the rules, edit `config\opencode.json` and run `install.ps1` again to rebuild the image.
+To change the rules, edit `opencode.json` and run `install.ps1` again to rebuild the image.
 
 ## Updating
 
-Versions are pinned in `config\versions.json` (llama.cpp build tag and OpenCode release). Change them and run `install.ps1` again.
+Versions are pinned in `versions.json` (llama.cpp build tag and OpenCode release). Change them and run `install.ps1` again.
 
 ## Uninstall
 

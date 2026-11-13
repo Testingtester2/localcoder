@@ -61,8 +61,8 @@ if (-not $SkipDocker) {
     if ($LASTEXITCODE -ne 0) { Fail 'Docker is installed but not running. Start Docker Desktop and run this again.' }
 }
 
-$versions = Get-Content (Join-Path $Root 'config\versions.json') -Raw | ConvertFrom-Json
-$catalog = Get-Content (Join-Path $Root 'config\models.json') -Raw | ConvertFrom-Json
+$versions = Get-Content (Join-Path $Root 'versions.json') -Raw | ConvertFrom-Json
+$catalog = Get-Content (Join-Path $Root 'models.json') -Raw | ConvertFrom-Json
 
 # ---------- llama.cpp ----------
 $tag = $versions.llamaCppTag
@@ -133,13 +133,17 @@ if (-not $SkipDocker) {
     $tmp = Join-Path $env:TEMP "lck-oc"; New-Item -ItemType Directory -Force $tmp | Out-Null
     $tgz = Join-Path $tmp $a.name
     Get-Verified $a.browser_download_url $tgz ($a.digest -replace '^sha256:', '')
-    & tar.exe -xzf $tgz -C (Join-Path $Root 'docker') opencode
+    # build in a clean temp folder so Docker never sees the models or the key
+    $ctx = Join-Path $tmp 'build'; New-Item -ItemType Directory -Force $ctx | Out-Null
+    & tar.exe -xzf $tgz -C $ctx opencode
     if ($LASTEXITCODE -ne 0) { Fail 'could not unpack OpenCode' }
-    Remove-Item -Recurse -Force $tmp
-    Copy-Item -Force (Join-Path $Root 'config\opencode.json') (Join-Path $Root 'docker\opencode.json')
+    Copy-Item -Force (Join-Path $Root 'Dockerfile') $ctx
+    Copy-Item -Force (Join-Path $Root 'opencode.json') $ctx
     Say 'building the sandbox image localcoder:1 (first time pulls ubuntu:24.04)'
-    & docker build -t localcoder:1 (Join-Path $Root 'docker')
-    if ($LASTEXITCODE -ne 0) { Fail 'docker build failed' }
+    & docker build -t localcoder:1 $ctx
+    $ok = ($LASTEXITCODE -eq 0)
+    Remove-Item -Recurse -Force $tmp
+    if (-not $ok) { Fail 'docker build failed' }
 }
 
 Say 'done.'

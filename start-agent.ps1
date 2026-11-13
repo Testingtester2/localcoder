@@ -6,7 +6,7 @@
 #>
 param([Parameter(Position = 0)][string]$Project)
 $ErrorActionPreference = 'Stop'
-$Root = Split-Path $PSScriptRoot -Parent
+$Root = $PSScriptRoot
 if (-not $Project) { $Project = Read-Host 'Project folder to open' }
 $Project = $Project.Trim('"')
 if (-not (Test-Path -LiteralPath $Project -PathType Container)) { Write-Host "Folder not found: $Project" -ForegroundColor Red; exit 1 }
