@@ -1,0 +1,35 @@
+{
+  "qwen3.8-27b-q6": {
+    "repo": "unsloth/Qwen3.8-27B-GGUF",
+    "file": "Qwen3.8-27B-UD-Q6_K.gguf",
+    "sizeGB": 22.0,
+    "minVramGB": 28,
+    "ctx": 65536,
+    "note": "Best quality. Default on 32 GB cards (RTX 5090)."
+  },
+  "qwen3.8-27b-q4": {
+    "repo": "unsloth/Qwen3.8-27B-GGUF",
+    "file": "Qwen3.8-27B-UD-Q4_K_M.gguf",
+    "sizeGB": 16.6,
+    "minVramGB": 20,
+    "ctx": 131072,
+    "ctxSmallCard": 32768,
+    "note": "Default on 24 GB cards (3090, 4090). On 32 GB it gives more context."
+  },
+  "qwen3.6-35b-a3b": {
+    "repo": "unsloth/Qwen3.6-35B-A3B-GGUF",
+    "file": "Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+    "sizeGB": 22.1,
+    "minVramGB": 24,
+    "ctx": 65536,
+    "ctxSmallCard": 16384,
+    "note": "Fast MoE (3B active). Quicker replies, weaker on long agent runs."
+  },
+  "qwen3.8-27b-mtp": {
+    "repo": "unsloth/Qwen3.8-27B-GGUF",
+    "file": "MTP/mtp-Qwen3.8-27B-Q4_0.gguf",
+    "sizeGB": 1.4,
+    "minVramGB": 0,
+    "note": "Optional speed head for the 27B models (experimental, see README)."
+  }
+}

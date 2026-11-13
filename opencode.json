@@ -1,0 +1,38 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "share": "disabled",
+  "autoupdate": false,
+  "model": "local/local-coder",
+  "provider": {
+    "local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp on this PC",
+      "options": {
+        "baseURL": "http://host.docker.internal:8080/v1",
+        "apiKey": "{env:LLM_KEY}"
+      },
+      "models": {
+        "local-coder": {
+          "name": "Local Qwen (llama.cpp)",
+          "limit": { "context": 65536, "output": 16384 }
+        }
+      }
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "webfetch": "deny",
+    "external_directory": "deny",
+    "bash": {
+      "*": "ask",
+      "git push*": "deny",
+      "git remote*": "deny",
+      "curl*": "deny",
+      "wget*": "deny",
+      "rm -rf*": "deny",
+      "sudo*": "deny",
+      "ssh*": "deny",
+      "scp*": "deny"
+    }
+  }
+}

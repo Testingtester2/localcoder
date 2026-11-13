@@ -1,0 +1,8 @@
+# downloaded or generated on install, never commit these
+models/
+llama.cpp/
+llm.key
+docker/opencode
+docker/opencode.json
+*.part
+*.log
